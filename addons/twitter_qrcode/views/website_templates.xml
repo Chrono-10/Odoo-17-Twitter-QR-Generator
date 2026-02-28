@@ -1,0 +1,38 @@
+<odoo>
+    <template id="twitter_qr_template" name="Twitter QR Page">
+        <t t-call="website.layout">
+            <div class="container mt-5">
+                <h1>Twitter QR Codes</h1>
+                <div class="row">
+                    <t t-foreach="accounts" t-as="account">
+                        <div class="col-md-4 text-center mb-4">
+                            <h3>
+                                <t t-esc="account.name" />
+                            </h3>
+                            <img t-if="account.qr_code"
+                                t-att-src="'data:image/png;base64,%s' % account.qr_code.decode()"
+                                class="img-fluid" />
+                            <a t-if="account.qr_code"
+                                t-att-href="'/twitter-qr/download/%s' % account.id"
+                                class="btn btn-primary mt-2">
+                                Download QR
+                            </a>
+                            <p>
+                                <a t-att-href="account.twitter_url"
+                                    target="_blank">
+                                    Visit Profile
+                                </a>
+                            </p>
+                        </div>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+    <record id="twitter_qr_menu_website" model="website.menu">
+        <field name="name">Twitter QR</field>
+        <field name="url">/twitter-qr</field>
+        <field name="parent_id" ref="website.main_menu" />
+        <field name="sequence" type="int">50</field>
+    </record>
+</odoo>
